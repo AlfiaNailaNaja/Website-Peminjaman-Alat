@@ -3,7 +3,7 @@
     <div class="card-body">
         <dl class="row mb-0">
             <dt class="col-7">Peminjam</dt>
-            <dd class="col-5 text-end">{{ $pengembalian->peminjaman->peminjam->nama }}</dd>
+            <dd class="col-5 text-end">{{ $pengembalian->peminjaman->user->nama }}</dd>
 
             <dt class="col-7">Tanggal Kembali</dt>
             <dd class="col-5 text-end">{{ $pengembalian->tgl_kembali->format('d/m/Y') }}</dd>

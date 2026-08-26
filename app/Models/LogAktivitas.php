@@ -11,6 +11,22 @@ class LogAktivitas extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'user_id', 'aksi', 'tabel_tujuan', 'deskripsi', 'ip_address',
+        'user_id', 
+        'aksi', 
+        'tabel_tujuan', 
+        'deskripsi', 
+        'ip_address',
     ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+    ];
+
+    /**
+     * Relasi ke model User (Pengguna)
+     */
+    public function pengguna()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

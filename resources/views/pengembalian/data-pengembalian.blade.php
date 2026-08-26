@@ -4,7 +4,7 @@
 
         <dl class="row small mb-3">
             <dt class="col-6">Peminjam</dt>
-            <dd class="col-6">{{ $peminjaman->peminjam->nama }}</dd>
+            <dd class="col-6">{{ $peminjaman->user->nama }}</dd>
 
             <dt class="col-6">Harus Kembali</dt>
             <dd class="col-6">{{ $peminjaman->tgl_harus_kembali->format('d/m/Y') }}</dd>

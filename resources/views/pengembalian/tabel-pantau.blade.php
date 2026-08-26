@@ -12,7 +12,7 @@
         @forelse ($daftarPeminjaman as $peminjaman)
             <tr class="{{ $peminjaman->lewatTenggat() ? 'table-warning' : '' }}">
                 <td><code>{{ $peminjaman->kode_pinjam }}</code></td>
-                <td>{{ $peminjaman->peminjam->nama }}</td>
+                <td>{{ $peminjaman->user->nama }}</td>
                 <td>
                     {{ $peminjaman->tgl_harus_kembali->format('d/m/Y') }}
                     @if ($peminjaman->lewatTenggat())

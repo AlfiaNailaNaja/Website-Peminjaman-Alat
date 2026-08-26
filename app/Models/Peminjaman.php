@@ -24,6 +24,7 @@ class Peminjaman extends Model
         'status' => StatusPeminjaman::class,
         'tgl_pinjam' => 'datetime',
         'tgl_harus_kembali' => 'datetime',
+        'tgl_diajukan_kembali' => 'datetime',
     ];
 
     /**
@@ -37,9 +38,9 @@ class Peminjaman extends Model
     /**
      * Relasi ke petugas yang memproses peminjaman
      */
-    public function petugas(): BelongsTo
+    public function peminjam(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'petugas_id');
+        return $this->user();
     }
 
     /**

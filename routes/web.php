@@ -7,7 +7,9 @@ use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\PersetujuanController;
+use App\Http\Controllers\LogAktivitasController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LaporanController;
 
 // Redirect halaman utama (/) langsung ke halaman login jika belum login
 Route::get('/', function () {
@@ -96,4 +98,20 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/rincian/{pengembalian}', [PengembalianController::class, 'rincian'])->name('rincian');
         });
 
+
+    Route::middleware('permission:log.lihat')
+        ->get('/log-aktivitas', [LogAktivitasController::class, 'index'])
+        ->name('log.index');
+
+    Route::middleware('permission:laporan.cetak')
+    ->prefix('laporan')
+    ->name('laporan.')
+    ->group(function () {
+        Route::get('/', [LaporanController::class, 'form'])->name('form');
+        Route::get('/peminjaman', [LaporanController::class, 'peminjaman'])->name('peminjaman');
+        Route::get('/pengembalian', [LaporanController::class, 'pengembalian'])->name('pengembalian');
+        Route::get('/stok', [LaporanController::class, 'stok'])->name('stok');
+    });
+
+    
 });

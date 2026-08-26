@@ -42,6 +42,12 @@
                     </li>
                 @endcan
 
+                @can('log.lihat')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('log.index') }}">Log Aktivitas</a>
+                    </li>
+                @endcan
+
                 @can('alat.lihat')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('katalog.daftar') }}">Katalog Alat</a>
@@ -62,6 +68,14 @@
                         <a class="nav-link" href="{{ route('peminjaman.saya') }}">Pinjaman Saya</a>
                     </li>
                 @endcan
+
+                @can('laporan.cetak')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('laporan.form') }}">Laporan</a>
+                    </li>
+                @endcan
+
+
             </ul>
 
             {{-- Menu Auth / Kanan (Nama User + Tombol Keluar) --}}

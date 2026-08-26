@@ -2,8 +2,15 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Listeners\CatatLogout;
+use App\Models\Alat;
+use App\Models\Kategori;
+use App\Models\User;
+use App\Observers\LogObserver;
+use Illuminate\Auth\Events\Logout;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,5 +28,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
+
+        Event::listen(
+            Logout::class,
+            CatatLogout::class
+        );
+
+        Kategori::observe(LogObserver::class);
+        Alat::observe(LogObserver::class);
+        User::observe(LogObserver::class);
     }
 }

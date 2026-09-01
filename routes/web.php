@@ -3,13 +3,16 @@
 use App\Http\Controllers\AlatController;
 use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\PeminjamanController;
-use App\Http\Controllers\PenggunaController;
-use App\Http\Controllers\PengembalianController;
-use App\Http\Controllers\PersetujuanController;
-use App\Http\Controllers\LogAktivitasController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KoreksiPeminjamanController;
+use App\Http\Controllers\KoreksiPengembalianController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\LogAktivitasController;
+use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\PengembalianController;
+use App\Http\Controllers\PenggunaController;
+use App\Http\Controllers\PengaturanController;
+use App\Http\Controllers\PersetujuanController;
+use Illuminate\Support\Facades\Route;
 
 // Redirect halaman utama (/) langsung ke halaman login jika belum login
 Route::get('/', function () {
@@ -98,20 +101,50 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/rincian/{pengembalian}', [PengembalianController::class, 'rincian'])->name('rincian');
         });
 
+    // --- KOREKSI PEMINJAMAN ---
+    Route::middleware('permission:peminjaman.kelola')
+        ->prefix('koreksi/peminjaman')
+        ->name('koreksi.peminjaman.')
+        ->group(function () {
+            Route::get('/', [KoreksiPeminjamanController::class, 'daftar'])->name('daftar');
+            Route::get('/{peminjaman}/ubah', [KoreksiPeminjamanController::class, 'formUbah'])->name('ubah');
+            Route::put('/{peminjaman}', [KoreksiPeminjamanController::class, 'perbarui'])->name('perbarui');
+            Route::delete('/{peminjaman}', [KoreksiPeminjamanController::class, 'hapus'])->name('hapus');
+        });
 
+    // --- KOREKSI PENGEMBALIAN ---
+    Route::middleware('permission:pengembalian.kelola')
+        ->prefix('koreksi/pengembalian')
+        ->name('koreksi.pengembalian.')
+        ->group(function () {
+            Route::get('/', [KoreksiPengembalianController::class, 'daftar'])->name('daftar');
+            Route::get('/{pengembalian}/ubah', [KoreksiPengembalianController::class, 'formUbah'])->name('ubah');
+            Route::put('/{pengembalian}', [KoreksiPengembalianController::class, 'perbarui'])->name('perbarui');
+        });
+
+    // --- PENGATURAN ---
+    Route::middleware('permission:pengaturan.kelola')
+        ->prefix('pengaturan')
+        ->name('pengaturan.')
+        ->group(function () {
+            Route::get('/', [PengaturanController::class, 'form'])->name('form');
+            Route::put('/', [PengaturanController::class, 'perbarui'])->name('perbarui');
+        });
+
+    // --- LOG AKTIVITAS ---
     Route::middleware('permission:log.lihat')
         ->get('/log-aktivitas', [LogAktivitasController::class, 'index'])
         ->name('log.index');
 
+    // --- LAPORAN ---
     Route::middleware('permission:laporan.cetak')
-    ->prefix('laporan')
-    ->name('laporan.')
-    ->group(function () {
-        Route::get('/', [LaporanController::class, 'form'])->name('form');
-        Route::get('/peminjaman', [LaporanController::class, 'peminjaman'])->name('peminjaman');
-        Route::get('/pengembalian', [LaporanController::class, 'pengembalian'])->name('pengembalian');
-        Route::get('/stok', [LaporanController::class, 'stok'])->name('stok');
-    });
+        ->prefix('laporan')
+        ->name('laporan.')
+        ->group(function () {
+            Route::get('/', [LaporanController::class, 'form'])->name('form');
+            Route::get('/peminjaman', [LaporanController::class, 'peminjaman'])->name('peminjaman');
+            Route::get('/pengembalian', [LaporanController::class, 'pengembalian'])->name('pengembalian');
+            Route::get('/stok', [LaporanController::class, 'stok'])->name('stok');
+        });
 
-    
 });

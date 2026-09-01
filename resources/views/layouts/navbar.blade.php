@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm" style="z-index: 1030;">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">Peminjam Alat</a>
 
@@ -42,6 +42,18 @@
                     </li>
                 @endcan
 
+                @can('peminjaman.kelola')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('koreksi.peminjaman.daftar') }}">Data Peminjaman</a>
+                    </li>
+                @endcan
+
+                @can('pengembalian.kelola')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('koreksi.pengembalian.daftar') }}">Data Pengembalian</a>
+                    </li>
+                @endcan
+
                 @can('log.lihat')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('log.index') }}">Log Aktivitas</a>
@@ -75,6 +87,11 @@
                     </li>
                 @endcan
 
+                @can('pengaturan.kelola')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('pengaturan.form') }}">Pengaturan</a>
+                    </li>
+                @endcan
 
             </ul>
 

@@ -36,11 +36,19 @@ class Peminjaman extends Model
     }
 
     /**
-     * Relasi ke petugas yang memproses peminjaman
+     * Alias relasi ke peminjam.
      */
     public function peminjam(): BelongsTo
     {
         return $this->user();
+    }
+
+    /**
+     * Relasi ke petugas yang memproses peminjaman.
+     */
+    public function petugas(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'petugas_id');
     }
 
     /**

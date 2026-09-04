@@ -29,7 +29,14 @@
 
                 @can('peminjaman.setujui')
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('persetujuan.antrian') }}">Persetujuan</a>
+                        <a class="nav-link d-flex align-items-center gap-1" href="{{ route('persetujuan.antrian') }}">
+                            <span>Persetujuan</span>
+                            @if (isset($jumlahAntrianPersetujuan) && $jumlahAntrianPersetujuan > 0)
+                                <span class="badge rounded-pill bg-warning text-dark">
+                                    {{ $jumlahAntrianPersetujuan }}
+                                </span>
+                            @endif
+                        </a>
                     </li>
                 @endcan
 
@@ -38,7 +45,14 @@
                         <a class="nav-link" href="{{ route('pengembalian.pantau') }}">Pemantauan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('pengembalian.antrian') }}">Verifikasi</a>
+                        <a class="nav-link d-flex align-items-center gap-1" href="{{ route('pengembalian.antrian') }}">
+                            <span>Verifikasi</span>
+                            @if (isset($jumlahAntrianVerifikasi) && $jumlahAntrianVerifikasi > 0)
+                                <span class="badge rounded-pill bg-danger">
+                                    {{ $jumlahAntrianVerifikasi }}
+                                </span>
+                            @endif
+                        </a>
                     </li>
                 @endcan
 
@@ -95,7 +109,7 @@
 
             </ul>
 
-            {{-- Menu Auth / Kanan (Nama User + Tombol Keluar) --}}
+            {{-- Menu Auth / Kanan --}}
             @auth
                 <div class="d-flex align-items-center gap-3">
                     <span class="navbar-text text-light">

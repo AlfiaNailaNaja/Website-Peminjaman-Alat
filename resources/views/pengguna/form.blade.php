@@ -5,7 +5,7 @@
 @section('konten')
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="card-title mb-4">
                     {{ $pengguna->exists ? 'Ubah Data Pengguna' : 'Tambah Data Pengguna' }}
@@ -18,41 +18,53 @@
                     @endif
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <x-input label="Nama Lengkap" name="nama" :value="$pengguna->nama" required />
+                            <div class="form-text text-muted">
+                                Masukkan nama lengkap pengguna sesuai identitas (wajib diisi).
+                            </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <x-input label="Nama Pengguna" name="username" :value="$pengguna->username" required />
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <x-input label="Email" name="email" :value="$pengguna->email" type="email" />
-                        </div>
-                        <div class="col-md-6">
-                            <x-input label="Nomor Telepon" name="no_telp" :value="$pengguna->no_telp" />
-                        </div>
-                    </div>
-
-                    @if ($pengguna->exists)
-                        <div class="mb-2">
-                            <span class="text-muted small">(Password dikosongkan bila tidak ingin diganti)</span>
-                        </div>
-                    @endif
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <x-input label="Kata Sandi" name="password" type="password" :required="!$pengguna->exists" />
-                        </div>
-                        <div class="col-md-6">
-                            <x-input label="Konfirmasi Kata Sandi" name="password_confirmation" type="password" :required="!$pengguna->exists" />
+                            <div class="form-text text-muted">
+                                Gunakan kombinasi huruf/angka <strong> tanpa spasi & kode unik</strong> (wajib diisi).
+                            </div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="peran" class="form-label">Peran</label>
+                            <x-input label="Email" name="email" :value="$pengguna->email" type="email" />
+                            <div class="form-text text-muted">
+                                Alamat email aktif (opsional).
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <x-input label="Nomor Telepon" name="no_telp" :value="$pengguna->no_telp" />
+                            <div class="form-text text-muted">
+                                Nomor HP/WhatsApp yang aktif (opsional).
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <x-input label="Kata Sandi" name="password" type="password" :required="!$pengguna->exists" />
+                            <div class="form-text text-muted">
+                                {{ $pengguna->exists ? 'Dikosongkan bila tidak ingin diganti (minimal 8 karakter jika diisi).' : 'Kata sandi minimal terdiri dari 8 karakter.' }}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <x-input label="Konfirmasi Kata Sandi" name="password_confirmation" type="password" :required="!$pengguna->exists" />
+                            <div class="form-text text-muted">
+                                Masukkan ulang kata sandi yang sama persis.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="peran" class="form-label">Peran <span class="text-danger">*</span></label>
                             <select class="form-select @error('peran') is-invalid @enderror" id="peran" name="peran" required>
                                 <option value="">-- Pilih Peran --</option>
                                 @foreach ($daftarPeran as $pilihanPeran)
@@ -61,6 +73,9 @@
                                     </option>
                                 @endforeach
                             </select>
+                            <div class="form-text text-muted">
+                                Pilih hak akses/peran pengguna pada sistem.
+                            </div>
                             @error('peran')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -78,6 +93,9 @@
                                 ]" 
                                 required
                             />
+                            <div class="form-text text-muted">
+                                Bawaan akun baru otomatis diset <strong>Aktif</strong>.
+                            </div>
                         </div>
                     </div>
 

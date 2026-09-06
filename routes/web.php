@@ -16,11 +16,22 @@ use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PersetujuanController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 // Redirect halaman utama (/) langsung ke halaman login jika belum login
 Route::get('/', function () {
-    return redirect()->route('login');
+    return view('landing');
 });
+
+// Route Logout - Mengarahkan langsung ke halaman login
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect()->route('login');
+})->name('logout');
 
 // Route yang membutuhkan autentikasi
 Route::middleware(['auth'])->group(function () {

@@ -1,6 +1,24 @@
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm" style="background-color: #233044; z-index: 1030;">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">Peminjam Alat</a>
+        {{-- Brand / Logo Redirect Logic --}}
+        @auth
+            @php
+                $user = auth()->user();
+                $role = is_object($user->role) ? ($user->role->value ?? '') : (string) $user->role;
+            @endphp
+
+            @if($user->hasRole('admin') || $role === 'admin')
+                <a class="navbar-brand" href="{{ route('admin.dasbor') }}">Peminjaman Alat</a>
+            @elseif($user->hasRole('petugas') || $role === 'petugas')
+                <a class="navbar-brand" href="{{ route('petugas.dasbor') }}">Peminjaman Alat</a>
+            @elseif($user->hasRole('peminjam') || $role === 'peminjam')
+                <a class="navbar-brand" href="{{ route('peminjam.dasbor') }}">Peminjaman Alat</a>
+            @else
+                <a class="navbar-brand" href="{{ url('/') }}">Peminjaman Alat</a>
+            @endif
+        @else
+            <a class="navbar-brand" href="{{ url('/') }}">Peminjaman Alat</a>
+        @endauth
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuUtama">
             <span class="navbar-toggler-icon"></span>
@@ -106,7 +124,6 @@
                         <a class="nav-link" href="{{ route('pengaturan.form') }}">Pengaturan</a>
                     </li>
                 @endcan
-
             </ul>
 
             {{-- Menu Auth / Kanan --}}

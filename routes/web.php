@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Petugas\DashboardController as PetugasDashboardController;
+use App\Http\Controllers\Peminjam\DashboardController as PeminjamDashboardController;
 use App\Http\Controllers\AlatController;
 use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\KategoriController;
@@ -23,17 +26,17 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
 
     // --- DASHBOARD BERDASARKAN ROLE ---
-    Route::get('/admin/dasbor', function () {
-        return view('dasbor.admin');
-    })->middleware('role:admin')->name('admin.dasbor');
+    Route::get('/admin/dasbor', [AdminDashboardController::class, 'index'])
+        ->middleware('role:admin')
+        ->name('admin.dasbor');
 
-    Route::get('/petugas/dasbor', function () {
-        return view('dasbor.petugas');
-    })->middleware('role:petugas')->name('petugas.dasbor');
+    Route::get('/petugas/dasbor', [PetugasDashboardController::class, 'index'])
+        ->middleware('role:petugas')
+        ->name('petugas.dasbor');
 
-    Route::get('/peminjam/dasbor', function () {
-        return view('dasbor.peminjam');
-    })->middleware('role:peminjam')->name('peminjam.dasbor');
+    Route::get('/peminjam/dasbor', [PeminjamDashboardController::class, 'index'])
+        ->middleware('role:peminjam')
+        ->name('peminjam.dasbor');
 
     // --- MANAGEMENT RESOURCES (ADMIN/PETUGAS) ---
     Route::resource('kategori', KategoriController::class)

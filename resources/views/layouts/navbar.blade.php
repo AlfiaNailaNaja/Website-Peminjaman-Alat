@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm" style="z-index: 1030;">
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm" style="background-color: #233044; z-index: 1030;">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">Peminjam Alat</a>
 

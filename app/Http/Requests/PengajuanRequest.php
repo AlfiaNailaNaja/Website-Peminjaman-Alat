@@ -16,6 +16,17 @@ class PengajuanRequest extends FormRequest
     }
 
     /**
+     * Menimpa request tgl_pinjam dengan tanggal server saat ini sebelum validasi berjalan.
+     * Ini mencegah manipulasi tanggal oleh user/penyusup melalui Inspect Element.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'tgl_pinjam' => now()->toDateString(),
+        ]);
+    }
+
+    /**
      * Mendapatkan aturan validasi yang berlaku untuk permintaan ini.
      */
     public function rules(): array

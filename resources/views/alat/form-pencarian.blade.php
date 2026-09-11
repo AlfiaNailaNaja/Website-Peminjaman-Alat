@@ -1,12 +1,7 @@
 <form method="GET" action="{{ route('alat.index') }}" class="row g-2 mb-3">
     <div class="col-md-4">
-        <input 
-            type="text" 
-            name="cari" 
-            class="form-control" 
-            placeholder="Cari nama atau kode alat..."
-            value="{{ $kataKunci }}"
-        >
+        <input type="text" name="cari" class="form-control" placeholder="Cari nama atau kode alat..."
+            value="{{ $kataKunci }}">
     </div>
 
     <div class="col-md-3">

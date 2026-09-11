@@ -10,22 +10,21 @@
         <form method="POST" action="{{ route('peminjaman.simpan') }}">
             @csrf
 
-            {{-- Tanggal Pinjam Locked (Readonly & Otomatis Hari Ini) --}}
+            {{-- Tanggal Pinjam (Bisa dipilih bebas, validasi di backend) --}}
             <div class="mb-3">
                 <x-input label="Tanggal Pinjam" 
                          type="date" 
                          name="tgl_pinjam"
-                         :value="now()->toDateString()" 
-                         readonly />
+                         :value="old('tgl_pinjam', now()->toDateString())" 
+                         required />
             </div>
 
-            {{-- Tanggal Harus Kembali (Minimal Hari Ini) --}}
+            {{-- Tanggal Harus Kembali (Bisa dipilih bebas, validasi di backend) --}}
             <div class="mb-3">
                 <x-input label="Tanggal Harus Kembali" 
                          type="date" 
                          name="tgl_harus_kembali"
                          :value="old('tgl_harus_kembali', now()->addDays($defaultHari)->toDateString())" 
-                         min="{{ now()->toDateString() }}"
                          required />
                 <div class="form-text">
                     Durasi bawaan {{ $defaultHari }} hari, maksimal {{ $maksHari }} hari.

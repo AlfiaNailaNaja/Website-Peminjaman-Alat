@@ -21,13 +21,13 @@
                         <div class="col-md-6 mb-3">
                             <x-input label="Nama Lengkap" name="nama" :value="$pengguna->nama" required />
                             <div class="form-text text-muted">
-                                Masukkan nama lengkap pengguna sesuai identitas (wajib diisi).
+                                Masukkan nama lengkap (wajib diisi).
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <x-input label="Nama Pengguna" name="username" :value="$pengguna->username" required />
                             <div class="form-text text-muted">
-                                Gunakan kombinasi huruf/angka <strong> tanpa spasi & kode unik</strong> (wajib diisi).
+                                Gunakan kombinasi huruf/angka (wajib diisi).
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                         <div class="col-md-6 mb-3">
                             <x-input label="Nomor Telepon" name="no_telp" :value="$pengguna->no_telp" />
                             <div class="form-text text-muted">
-                                Nomor HP/WhatsApp yang aktif (opsional).
+                                Nomor HP yang aktif (opsional).
                             </div>
                         </div>
                     </div>

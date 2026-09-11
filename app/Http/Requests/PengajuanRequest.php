@@ -16,17 +16,6 @@ class PengajuanRequest extends FormRequest
     }
 
     /**
-     * Menimpa request tgl_pinjam dengan tanggal server saat ini sebelum validasi berjalan.
-     * Ini mencegah manipulasi tanggal oleh user/penyusup melalui Inspect Element.
-     */
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'tgl_pinjam' => now()->toDateString(),
-        ]);
-    }
-
-    /**
      * Mendapatkan aturan validasi yang berlaku untuk permintaan ini.
      */
     public function rules(): array
@@ -51,6 +40,20 @@ class PengajuanRequest extends FormRequest
                 'string', 
                 'max:500',
             ],
+        ];
+    }
+
+    /**
+     * Kustomisasi pesan kesalahan validasi.
+     */
+    public function messages(): array
+    {
+        return [
+            'tgl_pinjam.required' => 'Tanggal pinjam wajib diisi.',
+            'tgl_pinjam.after_or_equal' => 'Tanggal pinjam tidak boleh kurang dari hari ini.',
+            'tgl_harus_kembali.required' => 'Tanggal pengembalian wajib diisi.',
+            'tgl_harus_kembali.after_or_equal' => 'Tanggal pengembalian tidak boleh sebelum tanggal pinjam.',
+            'tgl_harus_kembali.before_or_equal' => 'Tanggal pengembalian melebihi batas maksimal peminjaman.',
         ];
     }
 }

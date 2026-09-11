@@ -1,7 +1,5 @@
 @extends('layouts.utama')
-
 @section('judul', 'Masuk')
-
 @section('konten')
 <style>
     html, body {

@@ -10,10 +10,15 @@
 
 <div class="mb-3">
     @if ($label)
-        <label for="{{ $name }}" class="form-label">{{ $label }}</label>
+        <label for="{{ $name }}" class="form-label">
+            {{ $label }}
+            @if($attributes->has('required') || (bool) $attributes->get('required'))
+                <span class="text-danger">*</span>
+            @endif
+        </label>
     @endif
 
-    <select class="form-select @error($name) is-invalid @enderror" id="{{ $name }}" name="{{ $name }}">
+    <select class="form-select @error($name) is-invalid @enderror" id="{{ $name }}" name="{{ $name }}" {{ $attributes }}>
         @if ($placeholder)
             <option value="">{{ $placeholder }}</option>
         @endif

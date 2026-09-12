@@ -111,6 +111,27 @@
         box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.25);
     }
 
+    .btn-outline-navy {
+        background: transparent;
+        border: 2px solid #0F172A;
+        color: #0F172A;
+        padding: 12px 28px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 12px;
+        transition: all 0.25s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .btn-outline-navy:hover {
+        background: #0F172A;
+        color: #FFFFFF;
+        transform: translateY(-2px);
+    }
+
     /* Mini stats di bawah tombol hero */
     .hero-stats {
         display: flex;
@@ -147,19 +168,6 @@
     }
 
     .logo-wrapper::before {
-    content: '';
-    position: absolute;
-    width: 120%;
-    height: 120%;
-    background: radial-gradient(circle, rgba(37, 99, 235, 0.18) 0%, rgba(255, 255, 255, 0) 70%);
-    top: -10%;
-    left: -10%;
-    z-index: 0;
-    border-radius: 50%;
-    filter: blur(10px);
-}
-
-    .logo-wrapper::after {
         content: '';
         position: absolute;
         width: 120%;
@@ -172,9 +180,17 @@
         filter: blur(10px);
     }
 
-    @keyframes spin-slow {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
+    .logo-wrapper::after {
+        content: '';
+        position: absolute;
+        width: 120%;
+        height: 120%;
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.18) 0%, rgba(255, 255, 255, 0) 70%);
+        top: -10%;
+        left: -10%;
+        z-index: 0;
+        border-radius: 50%;
+        filter: blur(10px);
     }
 
     .app-logo {
@@ -328,6 +344,28 @@
         background: #F1F5F9;
         transform: translateY(-2px);
     }
+
+    .btn-cta-outline {
+        background: transparent;
+        border: 1px solid #64748B;
+        color: #FFFFFF;
+        padding: 12px 28px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 12px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.25s ease;
+        white-space: nowrap;
+    }
+
+    .btn-cta-outline:hover {
+        border-color: #FFFFFF;
+        color: #FFFFFF;
+        transform: translateY(-2px);
+    }
 </style>
 
 <!-- HERO SECTION -->
@@ -342,10 +380,14 @@
             <p class="lead-text">
                 Satu platform untuk mencatat peminjaman, pengembalian, dan riwayat alat laboratorium secara real-time.
             </p>
-            <div>
+            <div class="d-flex flex-wrap gap-3 align-items-center">
                 <a href="{{ route('login') }}" class="btn btn-navy">
                     <i class="bi bi-box-arrow-in-right fs-5"></i>
                     <span>Mulai Masuk</span>
+                </a>
+                <a href="{{ route('peminjam.daftar') }}" class="btn btn-outline-navy">
+                    <i class="bi bi-person-plus fs-5"></i>
+                    <span>Daftar Peminjam</span>
                 </a>
             </div>
 
@@ -358,7 +400,6 @@
                     <div class="stat-num">3</div>
                     <div class="stat-label">Level akses pengguna</div>
                 </div>
-               
             </div>
         </div>
 
@@ -439,11 +480,17 @@
 <div class="cta-strip">
     <div>
         <h3>Siap mulai kelola peminjaman alat lab Anda?</h3>
-        <p>Masuk sekarang dan rasakan proses pencatatan yang lebih rapi dan transparan.</p>
+        <p>Daftar akun peminjam baru atau masuk sekarang ke sistem.</p>
     </div>
-    <a href="{{ route('login') }}" class="btn-cta-light">
-        <i class="bi bi-box-arrow-in-right"></i>
-        <span>Mulai Sekarang</span>
-    </a>
+    <div class="d-flex flex-wrap gap-2">
+        <a href="{{ route('peminjam.daftar') }}" class="btn-cta-outline">
+            <i class="bi bi-person-plus"></i>
+            <span>Daftar Akun</span>
+        </a>
+        <a href="{{ route('login') }}" class="btn-cta-light">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Mulai Masuk</span>
+        </a>
+    </div>
 </div>
 @endsection

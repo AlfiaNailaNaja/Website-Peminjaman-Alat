@@ -7,17 +7,13 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class PengajuanRequest extends FormRequest
 {
-    /**
-     * Menentukan apakah pengguna diizinkan untuk membuat permintaan ini.
-     */
+    
     public function authorize(): bool
     {
         return $this->user()?->can('peminjaman.ajukan') ?? false;
     }
 
-    /**
-     * Mendapatkan aturan validasi yang berlaku untuk permintaan ini.
-     */
+   
     public function rules(): array
     {
         $maksHari = (int) Pengaturan::ambil('maks_hari_pinjam', 30);
@@ -43,9 +39,7 @@ class PengajuanRequest extends FormRequest
         ];
     }
 
-    /**
-     * Kustomisasi pesan kesalahan validasi.
-     */
+   
     public function messages(): array
     {
         return [

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Auth\PendaftaranPeminjamController; 
 use App\Http\Controllers\Petugas\DashboardController as PetugasDashboardController;
 use App\Http\Controllers\Peminjam\DashboardController as PeminjamDashboardController;
 use App\Http\Controllers\AlatController;
@@ -22,6 +23,12 @@ use Illuminate\Http\Request;
 // Redirect halaman utama (/) langsung ke halaman login jika belum login
 Route::get('/', function () {
     return view('landing');
+});
+
+// --- ROUTE PENDAFTARAN PEMINJAM (PUBLIK / GUEST) ---
+Route::middleware('guest')->group(function () {
+    Route::get('/daftar', [PendaftaranPeminjamController::class, 'create'])->name('peminjam.daftar');
+    Route::post('/daftar', [PendaftaranPeminjamController::class, 'store'])->name('peminjam.daftar.store');
 });
 
 // Route Logout - Mengarahkan langsung ke halaman login
@@ -57,6 +64,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('alat', AlatController::class)
         ->except(['show'])
         ->middleware('permission:alat.kelola');
+
+    // Route khusus untuk Admin menyetujui akun peminjam
+    Route::patch('pengguna/{pengguna}/setujui', [PenggunaController::class, 'setujui'])
+        ->middleware('permission:user.kelola')
+        ->name('pengguna.setujui');
 
     Route::resource('pengguna', PenggunaController::class)
         ->except(['show'])

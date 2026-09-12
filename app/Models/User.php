@@ -18,6 +18,7 @@ class User extends Authenticatable
         'password',
         'no_telp',
         'is_aktif',
+        'is_disetujui', // <-- TAMBAHKAN INI
     ];
 
     protected $hidden = [
@@ -28,8 +29,9 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'is_aktif' => 'boolean',
-            'password' => 'hashed',
+            'is_aktif'     => 'boolean',
+            'is_disetujui' => 'boolean', // <-- TAMBAHKAN INI
+            'password'     => 'hashed',
         ];
     }
 

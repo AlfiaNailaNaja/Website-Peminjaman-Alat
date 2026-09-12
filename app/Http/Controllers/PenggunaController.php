@@ -10,15 +10,20 @@ use Illuminate\Support\Facades\Auth;
 
 class PenggunaController extends Controller
 {
-    /**
-     * Menampilkan daftar pengguna (Pengujian #1 & #2)
-     */
     public function index(Request $request)
     {
         $kataKunci = $request->query('cari');
-        $peran = $request->query('peran');
+        $peran     = $request->query('peran');
 
+        // 1. Ambil pendaftar baru yang BELUM DISETUJUI
+        $pendaftaranPending = User::with('roles')
+            ->where('is_disetujui', false)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // 2. Ambil pengguna yang SUDAH DISETUJUI untuk tabel utama
         $daftarPengguna = User::with('roles')
+            ->where('is_disetujui', true)
             ->when($kataKunci, function ($query, $kataKunci) {
                 $query->where(function ($cabang) use ($kataKunci) {
                     $cabang->where('nama', 'like', '%' . $kataKunci . '%')
@@ -36,6 +41,7 @@ class PenggunaController extends Controller
 
         return view('pengguna.index', compact(
             'daftarPengguna',
+            'pendaftaranPending',
             'daftarPeran',
             'kataKunci',
             'peran'
@@ -50,20 +56,18 @@ class PenggunaController extends Controller
         return view('pengguna.form', compact('pengguna', 'daftarPeran'));
     }
 
-    /**
-     * Menyimpan pengguna baru (Pengujian #3, #4, #5)
-     */
     public function store(PenggunaRequest $request)
     {
         $data = $request->validated();
 
         $pengguna = User::create([
-            'nama'     => $data['nama'],
-            'username' => $data['username'],
-            'email'    => $data['email'] ?? null,
-            'no_telp'  => $data['no_telp'] ?? null,
-            'password' => $data['password'], // Otomatis ter-hash jika Model User memiliki casts 'password' => 'hashed'
-            'is_aktif' => $data['is_aktif'],
+            'nama'         => $data['nama'],
+            'username'     => $data['username'],
+            'email'        => $data['email'] ?? null,
+            'no_telp'      => $data['no_telp'] ?? null,
+            'password'     => $data['password'],
+            'is_aktif'     => $data['is_aktif'],
+            'is_disetujui' => true, // Pengguna yang dibuat langsung oleh Admin otomatis disetujui
         ]);
 
         $pengguna->syncRoles([$data['peran']]);
@@ -73,6 +77,18 @@ class PenggunaController extends Controller
             ->with('sukses', 'Pengguna berhasil ditambahkan.');
     }
 
+    public function setujui(User $pengguna)
+    {
+        $pengguna->update([
+            'is_disetujui' => true,
+            'is_aktif'     => true
+        ]);
+
+        return redirect()
+            ->route('pengguna.index')
+            ->with('sukses', 'Akun peminjam ' . $pengguna->nama . ' berhasil disetujui dan diaktifkan.');
+    }
+
     public function edit(User $pengguna)
     {
         $daftarPeran = Role::orderBy('name')->get();
@@ -80,14 +96,10 @@ class PenggunaController extends Controller
         return view('pengguna.form', compact('pengguna', 'daftarPeran'));
     }
 
-    /**
-     * Memperbarui data pengguna (Pengujian #6, #7, #8)
-     */
     public function update(PenggunaRequest $request, User $pengguna)
     {
         $data = $request->validated();
 
-        // Pengujian #8: Tolak jika menonaktifkan akun sendiri
         if ($this->diriSendiri($pengguna) && ! $data['is_aktif']) {
             return back()
                 ->with('gagal', 'Anda tidak dapat menonaktifkan akun Anda sendiri.')
@@ -100,14 +112,11 @@ class PenggunaController extends Controller
         $pengguna->no_telp  = $data['no_telp'] ?? null;
         $pengguna->is_aktif = $data['is_aktif'];
 
-        // Pengujian #6: Jika password diisi, perbarui password. Jika kosong, pakai password lama.
         if (! empty($data['password'])) {
             $pengguna->password = $data['password'];
         }
 
         $pengguna->save();
-
-        // Pengujian #7: Perbarui peran/role pengguna
         $pengguna->syncRoles([$data['peran']]);
 
         return redirect()
@@ -115,9 +124,6 @@ class PenggunaController extends Controller
             ->with('sukses', 'Data pengguna berhasil diperbarui.');
     }
 
-    /**
-     * Menghapus pengguna
-     */
     public function destroy(User $pengguna)
     {
         if ($this->diriSendiri($pengguna)) {
@@ -132,16 +138,17 @@ class PenggunaController extends Controller
                 ->with('gagal', 'Pengguna tidak dapat dihapus karena memiliki riwayat peminjaman. Nonaktifkan akunnya sebagai gantinya.');
         }
 
+        $pesan = $pengguna->is_disetujui 
+            ? 'Pengguna berhasil dihapus.' 
+            : 'Pendaftaran pengguna berhasil ditolak dan dihapus.';
+
         $pengguna->delete();
 
         return redirect()
             ->route('pengguna.index')
-            ->with('sukses', 'Pengguna berhasil dihapus.');
+            ->with('sukses', $pesan);
     }
 
-    /**
-     * Cek apakah objek pengguna adalah akun yang sedang login
-     */
     private function diriSendiri(User $pengguna): bool
     {
         return $pengguna->id === Auth::id();

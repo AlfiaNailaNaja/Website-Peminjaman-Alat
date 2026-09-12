@@ -6,23 +6,22 @@
         overflow-x: hidden;
     }
 
-    /* Full-bleed: keluar dari container layout berapapun padding-nya */
+    /* Menutupi TOTAL seluruh viewport, termasuk navbar/alert dari layout */
     .login-wrap {
+        position: fixed;
+        top: 0;
+        left: 0;
         width: 100vw;
-        position: relative;
-        left: 50%;
-        right: 50%;
-        margin-left: -50vw;
-        margin-right: -50vw;
-        margin-top: -24px;  
-        min-height: 100vh;
+        height: 100vh;
+        z-index: 1050; /* di atas navbar Bootstrap (biasanya 1030) */
         display: flex;
+        background: #FFFFFF; /* fallback biar nggak transparan */
     }
 
     .login-row {
         display: flex;
         width: 100%;
-        align-items: stretch; /* Memastikan kedua panel memiliki tinggi yang sama */
+        align-items: stretch;
     }
 
     /* ===== PANEL KIRI (BRANDING) ===== */
@@ -31,14 +30,14 @@
         background: #233044;
         padding: 56px;
         display: flex;
-        align-items: center; /* Menyeseuaikan titik tengah vertikal */
+        align-items: center;
         justify-content: center;
         color: #FFFFFF;
     }
 
     .login-brand-inner {
         width: 100%;
-        max-width: 380px; /* Samakan max-width dengan form kanan agar seimbang */
+        max-width: 380px;
     }
 
     .login-badge {
@@ -90,8 +89,10 @@
         background: #FFFFFF;
         padding: 56px;
         display: flex;
-        align-items: center; /* Menyeseuaikan titik tengah vertikal */
+        align-items: center;
         justify-content: center;
+        overflow-y: auto; /* biar tetap bisa discroll kalau konten form panjang / layar pendek */
+        max-height: 100vh;
     }
 
     .login-form-inner {
@@ -140,9 +141,6 @@
     @media (max-width: 767.98px) {
         .login-row {
             flex-direction: column;
-        }
-        .login-wrap {
-            min-height: auto;
         }
         .login-brand {
             flex: none;

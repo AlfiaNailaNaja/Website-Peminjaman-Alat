@@ -49,13 +49,23 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <x-input label="Kata Sandi" name="password" type="password" :required="!$pengguna->exists" />
+                            <x-input 
+                                label="Kata Sandi" 
+                                name="password" 
+                                type="password" 
+                                :required="!$pengguna->exists" 
+                            />
                             <div class="form-text text-muted">
                                 {{ $pengguna->exists ? 'Dikosongkan bila tidak ingin diganti (minimal 8 karakter jika diisi).' : 'Kata sandi minimal terdiri dari 8 karakter.' }}
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <x-input label="Konfirmasi Kata Sandi" name="password_confirmation" type="password" :required="!$pengguna->exists" />
+                            <x-input 
+                                label="Konfirmasi Kata Sandi" 
+                                name="password_confirmation" 
+                                type="password" 
+                                :required="!$pengguna->exists" 
+                            />
                             <div class="form-text text-muted">
                                 Masukkan ulang kata sandi yang sama persis.
                             </div>

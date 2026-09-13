@@ -6,6 +6,11 @@
     <title>Daftar Akun Peminjam</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* PENTING: reset ini yang bikin lebar kolom presisi */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         html, body {
             overflow-x: hidden;
         }
@@ -15,7 +20,7 @@
         }
 
         .register-wrap {
-            width: 100vw;
+            width: 100%;
             min-height: 100vh;
             display: flex;
         }
@@ -29,6 +34,7 @@
         /* ===== PANEL KIRI (BRANDING) ===== */
         .register-brand {
             flex: 0 0 42%;
+            max-width: 42%;
             background: #233044;
             padding: 56px;
             display: flex;
@@ -87,7 +93,8 @@
 
         /* ===== PANEL KANAN (FORM) ===== */
         .register-form-panel {
-            flex: 1;
+            flex: 1 1 0%;
+            min-width: 0;
             background: #FFFFFF;
             padding: 56px;
             display: flex;
@@ -170,6 +177,7 @@
             }
             .register-brand {
                 flex: none;
+                max-width: 100%;
                 padding: 40px 32px;
             }
             .register-form-panel {

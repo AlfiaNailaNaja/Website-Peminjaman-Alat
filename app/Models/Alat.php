@@ -10,7 +10,7 @@ class Alat extends Model
     protected $fillable = [
         'kategori_id', 'kode_alat', 'nama', 'deskripsi', 
         'stok', 'stok_tersedia', 'kondisi', 'foto',
-        ];
+    ];
 
     public function kategori()
     {
@@ -22,4 +22,16 @@ class Alat extends Model
         return $this->hasMany(DetailPeminjaman::class, 'alat_id');
     }
 
+    // TAMBAHKAN RELASI INI:
+    public function peminjaman()
+    {
+        return $this->hasManyThrough(
+            Peminjaman::class,
+            DetailPeminjaman::class,
+            'alat_id',         // Foreign key di tabel detail_peminjaman
+            'id',              // Foreign key di tabel peminjaman
+            'id',              // Local key di tabel alat
+            'peminjaman_id'    // Local key di tabel detail_peminjaman
+        );
+    }
 }
